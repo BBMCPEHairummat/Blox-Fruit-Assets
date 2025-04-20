@@ -206,7 +206,7 @@ function refresh() {
 var time = new Date().getHours()
 document.getElementById('ui').style.display = 'block';
 console.log(time)
-if ((time > 10 && time < 12) || (time > 20 && time < 22)) {
+if ((time > 10 && time < 12) || (time > 22 && time < 24)) {
   document.getElementById('ui').style.display = 'block';
 } else {
   message('Server is closed. Try again later')
