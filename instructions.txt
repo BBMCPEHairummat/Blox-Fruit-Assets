@@ -1,0 +1,73 @@
+<------------------WARNINGS------------------>
+
+// KEEP THE FILES PRIVATE & DONT SHARE!!!
+// KEEP THE FILES PRIVATE & DONT SHARE!!!
+// KEEP THE FILES PRIVATE & DONT SHARE!!!
+
+// Never Share "Confidential" Folder!!!
+// Never Share "Confidential" Folder!!!
+// Never Share "Confidential" Folder!!!
+
+<------------------INSTRUCTIONS------------------>
+
+// Run index.html of this folder using chrome
+// Dont mess with the names of any files
+// Internet must be ON before running
+// Inform any unknown errors which occurs while using to Hairum
+// Inform Feedbacks Or Criticism to hairumhamzaansari@gmail.com
+
+<------------------ERROR SOLUTION------------------>
+
+1. Server is closed.
+Sol. 
+  a - Server is open around 10-11 am & pm GST.
+  b - If you face this error in Fresh state, then it 
+indicates your service is temporarily blocked.
+  c - It is recommended to try in new tabs or sometimes later.
+
+2. Initializing Error.
+Sol. 
+  a - No network connection 
+  b - Try doing once more.
+Note - If this problem persists, then inform the Admin.
+
+3. Too many failed tries.
+Sol. Try doing in another tab.
+
+4. Inavlid Folder Format. 
+Sol. 
+  a - Cannot Connect to server. Check Connection
+  b - Try re-downloading the zip & extraction process
+
+5. (Stuck at Initialization)
+Sol. 
+  a - Try running(index.html) with an Code editor instead of Chrome
+Note : This usually occurs on old devices. It's because HTML files 
+are not fully functional in android devices.
+
+6. API KEYS not Found
+Sol.
+  a - Check if confidentials folder is downloaded or not
+  b - (Same as 5 sol - a)
+
+7. Error Evaluating Code
+Sol.
+  a - Syntax Error in your js code.
+
+8. Error Fetching players data
+Sol. 
+  a - There is no player data to fetch
+
+9. Couldn't Update Data!
+Sol.
+  a - There is no data to update.
+
+10. VITAL ERROR! Refresh Your Browser.
+Sol. It means API_KEYS & BinId is not Found. (same as 5 sol - a)
+In many cases, its not serious, but if this persists then stop
+using the application as it can erase all data if any error occurs.
+
+<------------------STATES------------------>
+
+1. Fresh --> Indicates Server is Connected.
+2. Sleep --> Indicates Server is Inactive.
