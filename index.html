@@ -155,7 +155,7 @@ function refresh() {
   }
   if (localStorage.getItem('ft') >= 3) {
     message("Too many failed tries.",'error')
-    localStorage.setItem('rft',new Date().getMinutes()+1)
+    localStorage.setItem('rft',new Date().getMinutes()+5)
     return
   }
   if (server_close) {
