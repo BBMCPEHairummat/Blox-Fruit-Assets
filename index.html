@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta name='viewport' content='width=device-width,initial-scale=1'/>
-    <title>Contributions 1</title>
+    <title>Contributions 2</title>
   </head>
   <script src="https://raw.githubusercontent.com/BBMCPEHairummat/Blox-Fruit-Assets/refs/heads/main/load.js"></script>
   <script src="https://raw.githubusercontent.com/BBMCPEHairummat/Blox-Fruit-Assets/refs/heads/main/save.js"></script>
@@ -74,6 +74,7 @@ function update() {
         localStorage.setItem('srd',JSON.stringify(index_data))
       }
       if (JSON.parse(localStorage.getItem('srd')).hasOwnProperty('admin')) {
+        message("Showing Previously Loaded Data")
         raw_data = JSON.parse(localStorage.getItem('srd'))
       }
     }
@@ -205,7 +206,6 @@ function refresh() {
 }
 var time = new Date().getHours()
 document.getElementById('ui').style.display = 'block';
-console.log(time)
 if ((time > 10 && time < 12) || (time > 22 && time < 24)) {
   document.getElementById('ui').style.display = 'block';
 } else {
