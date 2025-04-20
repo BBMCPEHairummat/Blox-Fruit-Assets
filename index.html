@@ -98,11 +98,6 @@ const loadCode = async () => {
 };
 
 const updateCode = async () => { 
-  if (localStorage.getItem('rtf') < new Date.getMinutes()) {
-    localStorage.removeItem('rtf')
-    server_closed = false;
-    failed_tries = 0;
-  }
   if (server_close) {
     message('Server is closed.','error')
     return
@@ -144,9 +139,14 @@ const loadScript = async () => {
   document.body.appendChild(script);
 };
 function refresh() {
+  if (localStorage.getItem('rtf') <= (new Date).getMinutes()) {
+    localStorage.removeItem('rtf')
+    server_closed = false;
+    failed_tries = 0;
+  }
   if (localStorage.getItem('ft') >= 3) {
     message("Too many failed tries.",'error')
-    localStorage.setItem('rft',new Date().getMinutes()+2)
+    localStorage.setItem('rft',new Date().getMinutes()+1)
     return
   }
   if (server_close) {
