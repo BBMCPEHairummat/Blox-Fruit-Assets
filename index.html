@@ -3,7 +3,6 @@
     <meta name='viewport' content='width=device-width,initial-scale=1'/>
   </head>
   <script src="Not Available for now"></script>
-  <script src="confidentials\github_api.js"></script>
   <script src="Not Availabe for now"></script>
   <script id="player-data"></script>
    <style>
@@ -31,6 +30,8 @@ if (failed_tries > 3) {
 let __ADMIN__PLAYER__ = false;
 let raw_data = {}
 let index_data = {}
+const binId = eval(prompt("Enter binId"))
+const apiKey = eval(Prompt("Enter apiKey"))
 try {
   if (!navigator.onLine) {
     throw new Error("Error: Failed to access server.")
