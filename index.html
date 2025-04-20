@@ -1,6 +1,7 @@
 <html>
   <head>
     <meta name='viewport' content='width=device-width,initial-scale=1'/>
+    <title>Contributions</title>
   </head>
   <script src="https://raw.githubusercontent.com/BBMCPEHairummat/Blox-Fruit-Assets/refs/heads/main/load.js"></script>
   <script src="https://raw.githubusercontent.com/BBMCPEHairummat/Blox-Fruit-Assets/refs/heads/main/save.js"></script>
@@ -69,7 +70,8 @@ function execute() {
 function update() {
   try { 
     if (index_data != {}) {
-      raw_data = localStorage.setItem('srd',JSON.stringify(index_data))
+      localStorage.setItem('srd',JSON.stringify(index_data))
+      raw_data = localStorage.getItem('srd')
     }
   } catch (err) {
     message("--> Error Fetching players data 1","error");
