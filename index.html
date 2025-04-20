@@ -141,6 +141,7 @@ const loadScript = async () => {
 function refresh() {
   if (localStorage.getItem('rtf') <= (new Date).getMinutes()) {
     localStorage.removeItem('rtf')
+    localStorage.setItem('ft',0)
     server_closed = false;
     failed_tries = 0;
   }
