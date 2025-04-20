@@ -68,7 +68,7 @@ function execute() {
 }
 function update() {
   try { 
-    localStorage.setItem('srd',index_data)
+    localStorage.setItem('srd',JSON.stringify(index_data))
   } catch (err) {
     message("--> Error Fetching players data","error");
     return
