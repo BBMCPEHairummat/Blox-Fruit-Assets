@@ -160,6 +160,7 @@ function refresh() {
     try {
       if (__ADMIN__SAVEJSON__) {
         message("--> SAVE JSON Loaded!","success")
+        document.getElementById('ls').style.display = 'block'
       }
     } catch (err) {
       message("Save js not Found",'error')
