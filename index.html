@@ -67,7 +67,9 @@ function execute() {
   }
 }
 function update() {
-  try { index_data } catch (err) {
+  try { 
+    localStorage.setItem('srd',index_data)
+  } catch (err) {
     message("--> Error Fetching players data","error");
     return
   }
@@ -76,6 +78,9 @@ function update() {
     return
   }
   message("--> Data Fetched","success")
+  if (server_close && raw_data == {}) {
+    raw_data = JSON.parse(localStorage.getItem('srd'))
+  }
   document.getElementById('Data').innerHTML = `<pre>${JSON.stringify(raw_data,null,2)}</pre>`
 }
 const loadCode = async () => {
@@ -93,7 +98,7 @@ const loadCode = async () => {
 };
 
 const updateCode = async () => { 
-  if (localStorage.getItem('rtf') > new Date.getMinutes()) {
+  if (localStorage.getItem('rtf') < new Date.getMinutes()) {
     localStorage.removeItem('rtf')
     server_closed = false;
     failed_tries = 0;
@@ -141,7 +146,7 @@ const loadScript = async () => {
 function refresh() {
   if (localStorage.getItem('ft') >= 3) {
     message("Too many failed tries.",'error')
-    localStorage.setItem('rft',new Date().getMinutes()+20)
+    localStorage.setItem('rft',new Date().getMinutes()+2)
     return
   }
   if (server_close) {
