@@ -33,6 +33,7 @@ let index_data = {}
 const binId = prompt("Enter binId")
 const apiKey = prompt("Enter apiKey")
 const __ADMIN__API__ = true;
+const __ADMIN__ = true;
 try {
   if (!navigator.onLine) {
     throw new Error("Error: Failed to access server.")
@@ -178,5 +179,14 @@ function refresh() {
     message("<-----COULDNT LOAD FILES----->",'error')
   }});
 }
+var time = new Date().getHours()
+document.getElementById('ui').style.display = 'block';
+if ((time > 10 && time < 12) || (time > 20 && time < 22)) {
+  document.getElementById('ui').style.display = 'block';
+} else {
+  message('Server is closed. Try again later')
+  message('<-----SLEEP STATE----->')
+  server_close = true;
+} 
   </script>
 </html>
