@@ -74,7 +74,7 @@ function update() {
         localStorage.setItem('srd',JSON.stringify(index_data))
       }
       if (localStorage.getItem('srd').hasOwnProperty('admin')) {
-        raw_data = localStorage.getItem('srd')
+        raw_data = JSON.parse(localStorage.getItem('srd'))
       }
     }
   } catch (err) {
