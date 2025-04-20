@@ -93,6 +93,11 @@ const loadCode = async () => {
 };
 
 const updateCode = async () => { 
+  if (localStorage.getItem('rtf') > new Date.getMinutes()) {
+    localStorage.removeItem('rtf')
+    server_closed = false;
+    failed_tries = 0;
+  }
   if (server_close) {
     message('Server is closed.','error')
     return
@@ -136,6 +141,7 @@ const loadScript = async () => {
 function refresh() {
   if (localStorage.getItem('ft') >= 3) {
     message("Too many failed tries.",'error')
+    localStorage.setItem('rft',new Date().getMinutes()+20)
     return
   }
   if (server_close) {
@@ -192,6 +198,5 @@ if ((time > 10 && time < 12) || (time > 20 && time < 22)) {
   message('<-----SLEEP STATE----->')
   server_close = true;
 } 
-server_close = false
   </script>
 </html>
