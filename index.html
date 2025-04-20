@@ -16,8 +16,10 @@ h1 { color: #ed111f; }
     <button onclick="document.getElementById('msg').innerHTML = ''">Clear</button>
     <button onclick="refresh()">Refresh</button>
     <button onclick="updateCode()">Upload</button>
-    <button onclick="saveJSON()">Export</button>
-    <button onclick="updateJSON()">Import</button>
+    <div id="ls">
+      <button onclick="saveJSON()">Export</button>
+      <button onclick="updateJSON()">Import</button>
+    </div>
   </div>
   <p id="Data"></p>
   <script>
@@ -161,6 +163,7 @@ function refresh() {
       }
     } catch (err) {
       message("Save js not Found",'error')
+      document.getElementById('ls').style.display = 'none'
     }
     raw_data = index_data
     message("<-----SERVER PACK LOADED SUCCESSFULLY----->")
