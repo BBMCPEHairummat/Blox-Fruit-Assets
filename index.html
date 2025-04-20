@@ -2,8 +2,8 @@
   <head>
     <meta name='viewport' content='width=device-width,initial-scale=1'/>
   </head>
-  <script src="Not Available for now"></script>
-  <script src="Not Availabe for now"></script>
+  <script src="https://raw.githubusercontent.com/BBMCPEHairummat/Blox-Fruit-Assets/refs/heads/main/load.js"></script>
+  <script src="https://raw.githubusercontent.com/BBMCPEHairummat/Blox-Fruit-Assets/refs/heads/main/save.js"></script>
   <script id="player-data"></script>
    <style>
 h1 { color: #ed111f; }
@@ -32,6 +32,7 @@ let raw_data = {}
 let index_data = {}
 const binId = eval(prompt("Enter binId"))
 const apiKey = eval(prompt("Enter apiKey"))
+const __ADMIN__API__ = true;
 try {
   if (!navigator.onLine) {
     throw new Error("Error: Failed to access server.")
@@ -177,14 +178,5 @@ function refresh() {
     message("<-----COULDNT LOAD FILES----->",'error')
   }});
 }
-var time = new Date().getHours()
-document.getElementById('ui').style.display = 'block';
-if ((time > 10 && time < 12) || (time > 20 && time < 22)) {
-  document.getElementById('ui').style.display = 'block';
-} else {
-  message('Server is closed. Try again later')
-  message('<-----SLEEP STATE----->')
-  server_close = true;
-} 
   </script>
 </html>
