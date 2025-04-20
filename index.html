@@ -69,7 +69,7 @@ function execute() {
 }
 function update() {
   try { 
-    if (index_data != {}) {
+    if (index_data == {}) {
       if (index_data.hasOwnProperty('admin')) {
         localStorage.setItem('srd',JSON.stringify(index_data))
       }
