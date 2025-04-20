@@ -69,14 +69,14 @@ function execute() {
 function update() {
   try { 
     if (index_data != {}) {
-      localStorage.setItem('srd',JSON.stringify(index_data))
+      raw_data = localStorage.setItem('srd',JSON.stringify(index_data))
     }
   } catch (err) {
-    message("--> Error Fetching players data","error");
+    message("--> Error Fetching players data 1","error");
     return
   }
   if (!raw_data.hasOwnProperty('admin')) {
-    message("--> Error Fetching players data","error");
+    message("--> Error Fetching players data 2","error");
     return
   }
   message("--> Data Fetched","success")
