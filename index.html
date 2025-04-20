@@ -1,0 +1,186 @@
+<html>
+  <script src="C:\Users\PC\Documents\Blox Fruits Contribution\load.js"></script>
+  <script src="C:\Users\PC\Documents\Blox Fruits Contribution\confidentials\github_api.js"></script>
+  <script src="C:\Users\PC\Documents\Blox Fruits Contribution\save.js"></script>
+  <script id="player-data"></script>
+   <style>
+h1 { color: #ed111f; }
+  </style>
+  <h1> Data Server </h1>
+  <p id="msg"></p>
+  <div id="ui">
+    <button id="exe" onclick='execute()'>Execute</button>
+    <button id="upd" onclick='update()'>Fetch</button> 
+    <button onclick="document.getElementById('msg').innerHTML = ''">Clear</button>
+    <button onclick="refresh()">Refresh</button>
+    <button onclick="updateCode()">Upload</button>
+    <button onclick="saveJSON()">Export</button>
+    <button onclick="updateJSON()">Import</button>
+  </div>
+  <p id="Data"></p>
+  <script>
+console.warn("<---ADMIN PANEL--->")
+let failed_tries = (localStorage.getItem('ft')) || 0
+var server_close = false;
+if (failed_tries > 3) {
+  server_close = true
+}
+let __ADMIN__PLAYER__ = false;
+let raw_data = {}
+let index_data = {}
+try {
+  if (!navigator.onLine) {
+    throw new Error("Error: Failed to access server.")
+  }
+} catch (err) {
+  console.log(err) 
+  message("--> navigator.onLine is set to False. This may cause problem.")
+}
+function generateScript() {
+  return `__ADMIN__PLAYERS__ = true; index_data = ${JSON.stringify(raw_data)}`
+}
+let datas = 0;
+function message(html_data,type) {
+  let color;
+  switch (type) {
+    case "error": color = "red"; break;
+    case "success": color = "#4cf55a"; break;
+    case undefined: color = "black"; break;
+  }
+  document.getElementById("msg").innerHTML += `<font color="${color}">${html_data}<br></font>`
+}
+function execute() {
+  let code = prompt("Enter JS Code"); 
+  try {
+    eval(`raw_data.${code}`)
+  } catch (err) {
+    console.log(err)
+    message("--> Error Evaluating Code",'error')
+  }
+}
+function update() {
+  try { index_data } catch (err) {
+    message("--> Error Fetching players data","error");
+    return
+  }
+  if (!raw_data.hasOwnProperty('admin')) {
+    message("--> Error Fetching players data","error");
+    return
+  }
+  message("--> Data Fetched","success")
+  document.getElementById('Data').innerHTML = `<pre>${JSON.stringify(raw_data,null,2)}</pre>`
+}
+const loadCode = async () => {
+  if (server_close) {
+    message('Server is closed.','error')
+    return
+  }
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
+    headers: {
+      "X-Master-Key": apiKey
+    }
+  });
+  const data = await res.json();
+  document.getElementById('player-data').textContent = data.record.code;
+};
+
+const updateCode = async () => { 
+  if (server_close) {
+    message('Server is closed.','error')
+    return
+  }
+  if (!raw_data.hasOwnProperty('admin')) {
+    message("Couldn't Update Data!",'error')
+    return
+  }
+  index_data = raw_data;
+  const updatedCode = generateScript();
+
+  await fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Master-Key": apiKey
+    },
+    body: JSON.stringify({ code: updatedCode })
+  });
+
+  message("Code updated!","success");
+};
+
+const loadScript = async () => {
+  if (server_close) {
+    message('Server is closed.','error')
+    return
+  }
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
+    headers: {
+      "X-Master-Key": apiKey
+    }
+  });
+  const data = await res.json();
+  const code = data.record.code;
+
+  const script = document.createElement('script')
+  script.textContent = code;
+  document.body.appendChild(script);
+};
+function refresh() {
+  if (localStorage.getItem('ft') >= 3) {
+    message("Too many failed tries.",'error')
+    return
+  }
+  if (server_close) {
+    message('Server is closed.','error')
+    return 
+  }
+  message("<-----INITIALIZING----->")
+  loadCode().then(loadScript()).then(() => {
+  try {
+    if (__ADMIN__) {
+      message("--> Load js Loaded!","success")
+      datas++
+    }
+    if (__ADMIN__API__) {
+      message("--> API KEYS Loaded!","success")
+      datas++
+    }
+    if (__ADMIN__PLAYERS__) {
+      message("--> Players Data Loaded!","success")
+      datas++
+    } 
+    try {
+      if (__ADMIN__SAVEJSON__) {
+        message("--> SAVE JSON Loaded!","success")
+      }
+    } catch (err) {
+      message("Save js not Found",'error')
+    }
+    raw_data = index_data
+    message("<-----SERVER PACK LOADED SUCCESSFULLY----->")
+    message("<-----FRESH STATE----->","success")
+    message(`---> Version : ${VERSION} <---`)
+  } catch (err) {
+    console.log(err)
+    failed_tries += 1
+    localStorage.setItem('ft',failed_tries)
+    message("Error Loading Files. Error: Inavlid Folder Format",'error')
+    switch (datas) {
+      case 0: message("--> Load JS not Found",'error'); break;
+      case 1: message("--> API KEYS not Found",'error'); break;
+      case 2: message("--> Players Data not Found",'error'); break;
+    }
+    message("<-----COULDNT LOAD FILES----->",'error')
+  }});
+}
+var time = new Date().getHours()
+document.getElementById('ui').style.display = 'block';
+if ((time > 10 && time < 12) || (time > 20 && time < 22)) {
+  document.getElementById('ui').style.display = 'block';
+} else {
+  message('Server is closed. Try again later')
+  message('<-----SLEEP STATE----->')
+  server_close = true;
+} 
+  </script>
+</html>
