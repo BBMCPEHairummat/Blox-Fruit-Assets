@@ -34,7 +34,7 @@ let __ADMIN__PLAYER__ = false;
 let raw_data = {}
 let index_data = {}
 try {
-  let user_input = prompt("Enter Pass Key").split('~')
+  var user_input = prompt("Enter Pass Key").split('~')
 } catch (err) {
   message("Lost Connection to the Server.")
   message("Invalid User Input",'error')
