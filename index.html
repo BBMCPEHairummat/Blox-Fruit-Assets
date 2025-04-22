@@ -25,6 +25,7 @@ h1 { color: #ed111f; }
   <p id="Data"></p>
   <script>
 console.warn("<---ADMIN PANEL--->")
+message("Server is open around 7-8 PM")
 let failed_tries = (localStorage.getItem('ft')) || 0
 var server_close = false;
 if (failed_tries > 3) {
@@ -210,6 +211,7 @@ function refresh() {
       case 2: message("--> Players Data not Found",'error'); break;
     }
     message("<-----COULDNT LOAD FILES----->",'error')
+    message("This usually occurs due to highly restrictive CORS or Firewall.")
   }});
 }
 var time = new Date().getHours()
