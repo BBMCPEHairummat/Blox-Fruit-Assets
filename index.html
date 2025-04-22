@@ -75,7 +75,7 @@ function update() {
         localStorage.setItem('srd',JSON.stringify(index_data))
       }
     }
-    if (server_close) {
+    if (server_close || raw_data == {}) {
       if (JSON.parse(localStorage.getItem('srd')).hasOwnProperty('admin')) {
         message("Showing Previously Loaded Data")
         raw_data = JSON.parse(localStorage.getItem('srd'))
