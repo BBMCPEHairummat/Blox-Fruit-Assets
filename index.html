@@ -209,7 +209,7 @@ function refresh() {
 }
 var time = new Date().getHours()
 document.getElementById('ui').style.display = 'block';
-if ((time > 10 && time < 12) || (time > 22 && time < 24)) {
+if ((time >= 19 && time <= 20)) {
   document.getElementById('ui').style.display = 'block';
 } else {
   message('Server is closed. Try again later')
