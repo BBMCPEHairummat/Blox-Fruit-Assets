@@ -149,9 +149,9 @@ h1 { color: #ed111f; }
   <script>
 const keywords = {
   fighting_style: ["Sanguine Art", "Dragon Talon", "Dark Step", "Superhuman", "Godhuman"],
-  swords: ["Shark Anchor", "Rengoku", "Dragon Trident", "Longsword"],
+  swords: ["Shark Anchor", "Rengoku", "Dragon Trident", "Longsword", "Twin Hooks"],
   names: ["Hairum", "Aamish", "Ashher", "Khubaib"],
-  fruits: ["Eagle", "Creation", "Sound", "Buddha", "Portal", "Yeti", "Love", "Control", "Magma"],
+  fruits: ["Eagle", "Creation", "Sound", "Buddha", "Portal", "Yeti", "Love", "Control", "Magma", "Flame"],
   guns: ["Soul Guitar"],
   race: ["Angel", "Shark", "Human", "Draco", "Ghoul", "Mink"],
   gamepasses: ["2x Boss Drop", "Luxury Boats", "Fruit Storage", "2 perm fruits"],
@@ -371,7 +371,7 @@ const loadScript = async () => {
   document.body.appendChild(script);
 };
 function refresh() {
-  if (localStorage.getItem('rtf') <= (new Date).getMinutes()) {
+  if (localStorage.getItem('rtf') <= (new Date()).getMinutes()) {
     localStorage.removeItem('rtf')
     localStorage.setItem('ft',0)
     server_closed = false;
