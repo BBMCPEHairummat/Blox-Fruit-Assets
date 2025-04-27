@@ -1,29 +1,228 @@
 <html>
   <head>
     <meta name='viewport' content='width=device-width,initial-scale=1'/>
-    <title>Contributions 3.2</title>
+    <title>Contributions 4.2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   </head>
+  <style>
+    body {
+      background-color: #78f76f;
+      font-family: "Montserrat", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 1;
+      font-style: normal;
+    }
+.button-17 {
+  align-items: center;
+  appearance: none;
+  background-color: #fff;
+  border-radius: 12px;
+  border-style: none;
+  box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
+  box-sizing: border-box;
+  color: #3c4043;
+  cursor: pointer;
+  display: inline-flex;
+  fill: currentcolor;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 48px;
+  justify-content: center;
+  letter-spacing: .25px;
+  line-height: normal;
+  max-width: 100%;
+  overflow: visible;
+  padding: 2px 12px;
+  position: relative;
+  text-align: center;
+  text-transform: none;
+  transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1),opacity 15ms linear 30ms,transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: auto;
+  will-change: transform,opacity;
+  z-index: 0;
+}
+
+.button-17:hover {
+  background: #F6F9FE;
+  color: #174ea6;
+}
+
+.button-17:active {
+  box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
+  outline: none;
+}
+
+.button-17:focus {
+  outline: none;
+  border: 2px solid #4285f4;
+}
+
+.button-17:not(:disabled) {
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+
+.button-17:not(:disabled):hover {
+  box-shadow: rgba(60, 64, 67, .3) 0 2px 3px 0, rgba(60, 64, 67, .15) 0 6px 10px 4px;
+}
+
+.button-17:not(:disabled):focus {
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+
+.button-17:not(:disabled):active {
+  box-shadow: rgba(60, 64, 67, .3) 0 4px 4px 0, rgba(60, 64, 67, .15) 0 8px 12px 6px;
+}
+
+.button-17:disabled {
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+    h1 { color: #ed111f; }
+    textarea {
+      width: 100%;
+      font-family: monospace;
+      margin-top: 10px;
+    }
+    #ui {
+      background-color: #84868c;
+      padding: 10px;
+      align-items: center;
+      border-radius: 5px;
+    }
+    #editor-section {
+      margin-top: 30px;
+      padding: 10px;
+      background: #f0f0f0;
+      border-radius: 5px;
+    }
+    #msg {
+      background-color: #3489eb;
+      padding: 10px;
+      border-radius: 5px; 
+      text-align: center;
+    }
+    #data {
+      color: white;
+      background-color: #db5e56;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-size: 20px;
+      overflow: hidden;
+      overflow-x: scroll;
+    }
+  </style>
   <script src="https://raw.githubusercontent.com/BBMCPEHairummat/Blox-Fruit-Assets/refs/heads/main/load.js"></script>
   <script src="https://raw.githubusercontent.com/BBMCPEHairummat/Blox-Fruit-Assets/refs/heads/main/save.js"></script>
   <script id="player-data"></script>
    <style>
 h1 { color: #ed111f; }
   </style>
-  <h1> Data Server </h1>
+  <h1 align="center"><font color="black"><---</font> Data Server <font color="black">---></font></h1>
   <p id="msg"></p>
-  <div id="ui">
-    <button id="exe" onclick='execute()'>Execute</button>
-    <button id="upd" onclick='update()'>Fetch</button> 
-    <button onclick="document.getElementById('msg').innerHTML = ''">Clear</button>
-    <button onclick="refresh()">Refresh</button>
-    <button onclick="updateCode()">Upload</button>
+  <div id="ui" align="center">
+    <h2 style="color: white;">General Functions</h2>
+    <button id="exe" onclick='execute()' id="exe" class="button-17" role="button">Execute</button>
+    <button id="upd" onclick='update()' class="button-17" role="button">Fetch</button> 
+    <button onclick="document.getElementById('msg').innerHTML = ''" class="button-17" role="button">Clear</button>
+    <button onclick="refresh()" class="button-17" role="button">Refresh</button>
+    <button onclick="updateCode()" id="upload" class="button-17" role="button">Upload</button>
+    <button onclick="store()" class="button-17" role="button">Store</button><br><br>
     <div id="ls">
       <button onclick="saveJSON()">Export</button>
       <button onclick="updateJSON()">Import</button>
     </div>
   </div>
-  <p id="Data"></p>
+  <div id="Data"><pre>No Object to Show</pre></div>
+  <div id="editor-section">
+    <h3>Edit Sample Data</h3>
+    <textarea id="rawDataEditor" rows="15" placeholder="Edit JSON here..."></textarea><br>
+    <button onclick="applyRawData()">Apply Changes</button>
+    <button onclick="syncEditor()">Sync from raw_data</button>
+    <p id="editStatus"></p>
+  </div>
   <script>
+const keywords = {
+  fighting_style: ["Sanguine Art", "Dragon Talon", "Dark Step", "Superhuman", "Godhuman"],
+  swords: ["Shark Anchor", "Rengoku", "Dragon Trident", "Longsword"],
+  names: ["Hairum", "Aamish", "Ashher", "Khubaib"],
+  fruits: ["Eagle", "Creation", "Sound", "Buddha", "Portal", "Yeti", "Love", "Control", "Magma"],
+  guns: ["Soul Guitar"],
+  race: ["Angel", "Shark", "Human", "Draco", "Ghoul", "Mink"],
+  gamepasses: ["2x Boss Drop", "Luxury Boats", "Fruit Storage", "2 perm fruits"],
+  keys1: ["players", "current_status"],
+  keys2: ["mischief", "objectives", "level", "sea", "name", "combat", "fruit", "contributions", "money", "objective", "gamepasses"],
+  keys3: ["fighting_style", "sword"],
+  set1: ["v1", "v2", "v3", "v4", "V1", "V2", "V3", "V4"]
+}
+const to_colors = {
+  fighting_style: "purple",
+  swords: "green",
+  names: "blue",
+  fruits: "gold", 
+  guns: "cyan",
+  race: "pink",
+  gaempasses: "maroon",
+  keys1: "yellow",
+  keys2: "orange",
+  keys3: "teal",
+  set1: "grey",
+  n: "navy"
+}
+
+function beautify (str) {
+  Object.keys(keywords).forEach(k => {
+    keywords[k].forEach(s => {
+      const regex = new RegExp(`\\b${s}\\b`, "g")
+      str = str.replace(regex,`<font color=${to_colors[k]}>${s}</font>`)
+    }) 
+  })
+  str = str.replace(/\b\d+(\.\d+)?\b/g, `<font color=${to_colors['n']}>$&</font>`)
+  return str
+}
+
+document.getElementById("exe").style.display = "none"
+document.getElementById('ls').style.display = "none"
+function syncEditor() {
+  document.getElementById('rawDataEditor').value = JSON.stringify(raw_data, null, 2);
+  message("--> Editor synced from raw_data", "success");
+}
+
+function applyRawData() {
+  const editorValue = document.getElementById('rawDataEditor').value;
+  try {
+    const parsed = JSON.parse(editorValue);
+    if (!parsed.hasOwnProperty('admin')) {
+      message("Unable to verify illegal data",'error')
+      syncEditor()
+      return
+    }
+    raw_data = parsed;
+    message("--> raw_data successfully updated from editor", "success");
+    document.getElementById('editStatus').innerText = "Changes applied!";
+    document.getElementById('editStatus').style.color = "#4cf55a";
+  } catch (err) {
+    console.error(err);
+    message("Failed to apply changes. Invalid JSON.", "error");
+    document.getElementById('editStatus').innerText = "Invalid JSON!";
+    document.getElementById('editStatus').style.color = "red";
+  }
+}
+function store() {
+  try {
+    localStorage.setItem('srd',JSON.stringify(raw_data))
+  } catch (err) {
+    message("Unable to store raw data",'error')
+    return
+  }
+  message("Stored Raw Data Successfully",'success')
+}
+
 console.warn("<---ADMIN PANEL--->")
 message("Server is open around 7-8 PM")
 let failed_tries = (localStorage.getItem('ft')) || 0
@@ -32,13 +231,19 @@ if (failed_tries > 3) {
   server_close = true
 }
 let __ADMIN__PLAYER__ = false;
-let raw_data = {}
+let raw_data = JSON.parse(localStorage.getItem('srd')) || {}
 let index_data = {}
 var binId; var apiKey;
 try {
   var user_input = prompt("Enter Pass Key").split('~');
   binId = user_input[0]
   apiKey = user_input[1]
+  if (user_input[2] !== 'admin2') {
+  document.getElementById('upload').setAttribute('onclick',`
+    message("Admin Approval is required",'error')
+  `)
+    message("User Status: Default")
+  } else message("User Status: Admin")
 } catch (err) {
   message("Lost Connection to the Server.")
   message("Invalid User Input",'error')
@@ -62,9 +267,9 @@ function message(html_data,type) {
   switch (type) {
     case "error": color = "red"; break;
     case "success": color = "#4cf55a"; break;
-    case undefined: color = "black"; break;
+    case undefined: color = "white"; break;
   }
-  document.getElementById("msg").innerHTML += `<font color="${color}">${html_data}<br></font>`
+  document.getElementById("msg").innerHTML += `<font color="${color}"><b>${html_data}</b><br></font>`
 }
 function execute() {
   let code = prompt("Enter JS Code"); 
@@ -77,10 +282,12 @@ function execute() {
 }
 function update() {
   try { 
-    if (!server_close) {
-      if (index_data.hasOwnProperty('admin')) {
-        localStorage.setItem('srd',JSON.stringify(index_data))
-      }
+    if (!server_close && index_data.hasOwnProperty('admin')) {
+      message("Data Saved to Local Storage")
+      localStorage.setItem('srd',JSON.stringify(index_data))
+    } else if (server_close && raw_data.hasOwnProperty('admin')) {
+      message("Data Saved to Local Storage")
+      localStorage.setItem('srd',JSON.stringify(raw_data))
     }
     if (server_close || !raw_data.hasOwnProperty('admin')) {
       if (JSON.parse(localStorage.getItem('srd')).hasOwnProperty('admin')) {
@@ -100,18 +307,24 @@ function update() {
   if (server_close && raw_data == {}) {
     raw_data = JSON.parse(localStorage.getItem('srd'))
   }
-  document.getElementById('Data').innerHTML = `<pre>${JSON.stringify(raw_data,null,2)}</pre>`
+  let customised = JSON.stringify(raw_data,null,2)
+  customised = beautify(customised).replace(/"/g,'').replace(/,/g,'')
+  document.getElementById('Data').innerHTML = `<pre>${customised}</pre>`
 }
+update()
 const loadCode = async () => {
   if (server_close) {
     message('Server is closed.','error')
     return
   }
-  const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
+  try { var res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
     headers: {
       "X-Master-Key": apiKey
     }
-  });
+  }); } catch (err) {
+    message("Invalid Request",'error')
+    return
+  }
   const data = await res.json();
   document.getElementById('player-data').textContent = data.record.code;
 };
@@ -215,14 +428,6 @@ function refresh() {
     message("This usually occurs due to highly restrictive CORS or Firewall.")
   }});
 }
-var time = new Date().getHours()
-document.getElementById('ui').style.display = 'block';
-if ((time >= 19 && time <= 20)) {
-  document.getElementById('ui').style.display = 'block';
-} else {
-  message('Server is closed. Try again later')
-  message('<-----SLEEP STATE----->')
-  server_close = true;
-} 
+
   </script>
 </html>
