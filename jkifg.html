@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <img id="player" src="/file_00000000f5e062308ff1535b3e680c4c-removebg-preview.png" style="display:none;">
+  <canvas style="background-color: red;" id="canvas"></canvas>
+  <div id="joystickContainer">
+  <div id="joystick"></div>
+</div>
+</head>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #111;
+}
+
+canvas {
+  display: block;
+  background: #222;
+}
+#joystickContainer {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  touch-action: none;
+}
+#joystick {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  position: absolute;
+  left: 30px;
+  top: 30px;
+}
+</style>
+</html>
+<script defer>
+const canvas = document.getElementById("canvas")
+const ctx = canvas.getContext("2d")
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+
+function dragEnd(e) {
+  let prev_x = player.x;
+  let prev_y = player.y;
+  let new_x = e.clientX;
+  let new_y = e.clientY;
+  player.x = new_x-player.size/2;
+  player.y = new_y-player.size/2;
+}
+
+canvas.addEventListener("click", function(event){dragEnd(event)})
+
+class Engine {
+  constructor() {
+    this.entities = []
+  }
+  renderFrame () {
+    ctx.reset()
+    this.entities.filter(e => e.display !== 'none').forEach(e => {
+      e.x += e.vx; e.y += e.vy; 
+      if (e.motion == "slide") {
+        e.vx -= e.vx > 0 ? 2 : -2; 
+        e.vy -= e.vy > 0 ? 2 : -2;
+      }
+      
+      if (e.on_collision == 'resolve') {
+        this.entities.filter(o => o.display !== 'none' && o !== e).forEach(o => e.resolveCollision(o,this.entities.filter(k => k.display !== 'none')))
+      }
+      
+      if (e.render.self == true) {
+        ctx.drawImage(e.image,e.x,e.y,e.size,e.size)
+      }
+      if (e.render.self_hitbox == true) {
+        let hitbox = e.compactHitbox();
+        ctx.strokeStyle = 'cyan';
+        ctx.strokeRect(hitbox.x,hitbox.y,hitbox.width,hitbox.height)
+      }
+      
+      if (e.render.health == true && Math.round(e.health) != Math.round(e.maxHealth)) {
+        if (e.health < 0) e.health = 0;
+        if (e.health > e.maxHealth) e.health = 100
+        const barWidth = e.size;
+        const barHeight = 6;
+        const healthRatio = Math.max(0,e.health/e.maxHealth);
+      
+        ctx.fillStyle = 'black';
+        ctx.fillRect(e.x,e.y-10,barWidth,barHeight);
+      
+        let hp30per = 30/100 * e.maxHealth;
+        let hp70per = 70/100 * e.maxHealth;
+        if (e.health <= hp30per) {
+          ctx.fillStyle = 'red'
+        } else if (e.health <= hp70per) {
+          ctx.fillStyle = 'yellow'
+        } else {
+          ctx.fillStyle = 'limegreen';
+        }
+        ctx.fillRect(e.x,e.y-10,barWidth*healthRatio,barHeight)
+        
+        ctx.stokeStyle = "white";
+        ctx.strokeRect(e.x,e.y-10,barWidth,barHeight)
+      }
+      if (e.render.stamina == true && Math.round(e.stamina) != Math.round(e.maxStamina)) {
+        
+        let barWidth = e.size;
+        let barHeight = 6; 
+        const staminaRatio = Math.max(0,e.stamina/e.maxStamina)
+        
+        ctx.fillStyle = 'black';
+        ctx.fillRect(e.x,e.y-20,barWidth,barHeight);
+        
+        ctx.fillStyle = 'cyan';
+        ctx.fillRect(e.x,e.y-20,barWidth*staminaRatio,barHeight);
+        
+        ctx.strokeStyle = 'white';
+        ctx.strokeRect(e.x,e.y-20,barWidth,barHeight)
+      }
+    })
+  }
+}
+class Entity {
+  constructor(data) {
+    Object.keys(data).forEach(k => {
+      eval(`this['${k}'] = data['${k}']`)
+    })
+  }
+  compactHitbox() {
+    if (this.hitbox) {
+      this.hitbox.x = this.x + this.hitbox.minX;
+      this.hitbox.y = this.y + this.hitbox.minY;
+      return this.hitbox
+    }
+    const new_canvas = document.createElement('canvas');
+    new_canvas.width = this.size;
+    new_canvas.height = this.size;
+    const context = new_canvas.getContext('2d')
+    context.drawImage(this.image,0,0,this.size,this.size)
+    const imageData = context.getImageData(0,0,this.size,this.size).data
+    let minX = this.size; let minY = this.size;
+    let maxX = 0; let maxY = 0;
+    for (let y = 0; y < this.size; y++) {
+      for (let x = 0; x < this.size; x++) {
+        const i = (y * this.size + x) * 4;
+        const alpha = imageData[i+3];
+        if (alpha > 5) {
+          if (x < minX) minX = x;
+          if (x > maxX) maxX = x;
+          if (y < minY) minY = y;
+          if (y > maxY) maxY = y;
+        }
+      }
+    }
+    const result = {
+      x: this.x+minX,
+      y: this.y+minY,
+      width: maxX - minX,
+      height: maxY - minY,
+      minX, maxX, minY, maxY
+    }
+    this.hitbox = result;
+    return result
+  }
+  checkCollision(entity) {
+    let e1s = this.compactHitbox()
+    let e2s = entity.compactHitbox()
+    if (
+      this.x + e1s.width < entity.x ||
+      this.x > entity.x + e2s.width ||
+      this.y + e1s.height < entity.y ||
+      this.y > entity.y + e2s.height
+    ) {
+      return false
+    } else if (
+      this.accurate_collision == false
+    ) {
+      return true
+    }
+    const offCanvas1 = document.createElement('canvas');
+    const offCanvas2 = document.createElement('canvas');
+    const ctx1 = offCanvas1.getContext('2d');
+    const ctx2 = offCanvas2.getContext('2d');
+    
+    ctx1.drawImage(this.image,0,0,e1s.width,e1s.height);
+    ctx2.drawImage(entity.image,0,0,e2s.width,e2s.height);
+    
+    const imgData1 = ctx1.getImageData(0,0,e1s.width,e1s.height).data;
+    const imgData2 = ctx2.getImageData(0,0,e2s.width,e2s.height).data;
+    
+    for (let i = 0; i < imgData1.length; i++) {
+      const alpha1 = imgData1[i+3];
+      const alpha2 = imgData2[i+3];
+      if (alpha1 > 0 && alpha2 > 0) {
+        return true
+      }
+    }
+    
+    return false
+  }
+  resolveCollision(entity, others) {
+    if (!this.checkCollision(entity)) return;
+    
+    const hb1 = this.compactHitbox();
+    const hb2 = entity.compactHitbox();
+
+    const center1 = { x: this.x + hb1.width / 2, y: this.y + hb1.height / 2 };
+    const center2 = { x: entity.x + hb2.width / 2, y: entity.y + hb2.height / 2 };
+
+    const dx = center1.x - center2.x;
+    const dy = center1.y - center2.y;
+
+    const combinedHalfWidths = hb1.width / 2 + hb2.width / 2;
+    const combinedHalfHeights = hb1.height / 2 + hb2.height / 2;
+
+    let overlapX = combinedHalfWidths - Math.abs(dx);
+    let overlapY = combinedHalfHeights - Math.abs(dy);
+
+    if (overlapX <= 0 || overlapY <= 0) return;
+
+    // Resolve collision along the axis of least penetration
+    if (overlapX < overlapY) {
+      const shift = dx > 0 ? overlapX : -overlapX;
+      this.x += shift / 2;
+      entity.x -= shift / 2;
+    } else {
+      const shift = dy > 0 ? overlapY : -overlapY;
+      this.y += shift / 2;
+      entity.y -= shift / 2;
+    }
+    
+    // Handle reflection if needed
+    if (this.type === 'object' && this.collide.reflect) {
+      if (overlapX < overlapY) {
+        this.vx *= -1;
+      } else {
+        this.vy *= -1;
+      }
+    }
+    if (entity.type === 'object' && entity.collide.reflect) {
+      if (overlapX < overlapY) {
+        entity.vx *= -1;
+      } else {
+        entity.vy *= -1;
+      }
+    }
+  }
+}
+
+const my_engine = new Engine()
+
+const player = new Entity({
+  x: 10,
+  y: 20,
+  image: document.getElementById("player"),
+  size: 80,
+  vx: 0,
+  vy: 0,
+  stamina: 50,
+  maxStamina: 50,
+  type: 'entity',
+  main: "Player",
+  health: 80,
+  maxHealth: 100,
+  accurate_collision: false,
+  collide: {},
+  render: {
+    health: true,
+    stamina: true,
+    self: true,
+    self_hitbox: true
+  }
+})
+const obstacle1 = new Entity({
+  x: 100,
+  y: 200,
+  image: document.getElementById("player"),
+  size: 80,
+  vx: 0,
+  vy: 0,
+  type: 'object',
+  main: "Entity",
+  health: 60,
+  maxHealth: 100,
+  on_collision: 'resolve',
+  accurate_collision: false,
+  collide: {
+    reflect: false
+  },
+  render: {
+    health: false,
+    self: true,
+    self_hitbox: true,
+  }
+})
+const obstacle2 = new Entity({
+  x: 150,
+  y: 310,
+  image: document.getElementById("player"),
+  size: 80,
+  vx: 0,
+  vy: 0,
+  type: 'object',
+  main: "Entity",
+  health: 100,
+  maxHealth: 100,
+  accurate_collision: false,
+  on_collision: 'resolve',
+  collide: {
+    reflect: true
+  },
+  render: {
+    health: false,
+    self: true,
+    self_hitbox: true
+  }
+})
+
+my_engine.entities.push(player,obstacle1,obstacle2)
+function render() {
+  my_engine.renderFrame()
+  window.requestAnimationFrame(render)
+}
+render()
+const joystick = document.getElementById("joystick");
+const joystickContainer = document.getElementById("joystickContainer");
+
+let dragging = false, offsetX = 0, offsetY = 0;
+
+joystickContainer.addEventListener("touchstart", startDrag);
+joystickContainer.addEventListener("touchmove", drag);
+joystickContainer.addEventListener("touchend", endDrag);
+
+joystickContainer.addEventListener("mousedown", startDrag);
+window.addEventListener("mousemove", drag);
+window.addEventListener("mouseup", endDrag);
+
+function startDrag(e) {
+  dragging = true;
+  e.preventDefault();
+}
+
+function drag(e) {
+  if (!dragging) return;
+
+  let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+  const rect = joystickContainer.getBoundingClientRect();
+  const dx = clientX - rect.left - rect.width / 2;
+  const dy = clientY - rect.top - rect.height / 2;
+  const dist = Math.min(Math.hypot(dx, dy), rect.width / 2 - 20);
+
+  const angle = Math.atan2(dy, dx);
+  offsetX = Math.cos(angle) * dist;
+  offsetY = Math.sin(angle) * dist;
+
+  joystick.style.left = `${30 + offsetX}px`;
+  joystick.style.top = `${30 + offsetY}px`;
+
+  // Move player
+  player.vx = offsetX * (player.stamina)/150;
+  player.vy = offsetY * (player.stamina)/150;
+  player.stamina -= 1
+  if (player.stamina < 10) player.stamina = 10
+}
+
+function endDrag() {
+  dragging = false;
+  offsetX = offsetY = 0;
+  joystick.style.left = "30px";
+  joystick.style.top = "30px";
+  player.vx = 0;
+  player.vy = 0;
+}
+</script>
